@@ -9,7 +9,7 @@ import math
 
 # Variables declaration
 needle_length = 20
-strip_width = needle_length*1.1
+strip_width = needle_length*1.15
 max_trials = 1_000_001
 boarder0 = strip_width*0    # board dimensions
 boarder1 = strip_width*1    # board dimensions
