@@ -8,37 +8,56 @@ import random
 import math
 
 # Variables declaration
-needle_length = 20
-strip_width = needle_length*1.15
-max_trials = 1_000_001
-boarder0 = strip_width*0    # board dimensions
-boarder1 = strip_width*1    # board dimensions
-boarder2 = strip_width*2    # board dimensions
-boarder3 = strip_width*3    # board dimensions
-boarder4 = strip_width*4    # board dimensions
-boarder5 = strip_width*5    # board dimensions
-boarder6 = strip_width*6    # board dimensions
-count_needles = 0
-list_needless = []
+needle_length = 36
+strip_width = 50
+max_trials = 100_001
+Y1 = strip_width*0      # board dimensions
+Y2 = strip_width*1      # board dimensions
+Y3 = strip_width*2      # board dimensions
+Y4 = strip_width*3      # board dimensions
+Y5 = strip_width*4      # board dimensions
+Y6 = strip_width*5      # board dimensions
+Y7 = strip_width*6      # board dimensions
+Y8 = strip_width*7      # board dimensions
 
 
-def length(x1, y1, x2, y2):
+def find_length(x1, y1, x2, y2):
     length = math.trunc(math.sqrt((x2-x1)**2+(y2-y1)**2))
     return length
 
-def generate_needles(boarder6):
+def generate_needles(boarder6, max_trials):
+   
+    count_needles = 0
+    count_cross = 0
+    count_safe = 0
     
-    x1 = random.randint(0, boarder6)
-    y1 = random.randint(0, boarder6)
-    x2 = random.randint(0, boarder6)
-    y2 = random.randint(0, boarder6)
+    for _ in range(1, max_trials): 
+        x1 = random.randint(0, Y7)
+        y1 = random.randint(0, Y7)
+        x2 = random.randint(0, Y7)
+        y2 = random.randint(0, Y7)
     
-    distance = length(x1, y1, x2, y2)
+        distance = find_length(x1, y1, x2, y2)
 
-    if distance == needle_length:
-        count_needles += 1
-        return count_needles
+        if int(distance) == int(needle_length):
+            count_needles += 1
+        
+            # print(x1, y1, x2, y2, distance)
+        
+            if (y1 <= Y1 <= y2 or y2 <= Y1 <= y1) or \
+                (y1 <= Y2 <= y2) or (y2 <= Y2 <= y1) or \
+                (y1 <= Y3 <= y2) or (y2 <= Y3 <= y1) or \
+                (y1 <= Y4 <= y2) or (y2 <= Y4 <= y1) or \
+                (y1 <= Y5 <= y2) or (y2 <= Y5 <= y1) or \
+                (y1 <= Y6 <= y2) or (y2 <= Y6 <= y1) or \
+                (y1 <= Y7 <= y2) or (y2 <= Y7 <= y1):
+                count_cross += 1
+            else:
+                count_safe += 1
+            
+    return count_needles, count_cross, count_safe
 
-for i in range(1, 1000):    
-    print(generate_needles(boarder6))
-
+count_needles, count_cross, count_safe = generate_needles(Y6, max_trials)
+print(count_cross, count_needles, count_safe)
+print("Pi = ", (2*needle_length)/(strip_width*(count_cross/count_needles)))
+print("p = ", count_cross/(count_cross+count_safe))
