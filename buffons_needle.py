@@ -10,7 +10,7 @@ import math
 # Variables declaration
 needle_length = 36
 strip_width = 50
-max_trials = 1_000
+max_trials = 100_001
 Y1 = strip_width*0      # board dimensions
 Y2 = strip_width*1      # board dimensions
 Y3 = strip_width*2      # board dimensions
@@ -33,9 +33,9 @@ def generate_needles(boarder6, max_trials):
     count_safe = 0
     
     for _ in range(1, max_trials): 
-        x1 = random.randint(0, Y7)
+        x1 = random.randint(0, Y6)
         y1 = random.randint(0, Y7)
-        x2 = random.randint(0, Y7)
+        x2 = random.randint(0, Y6)
         y2 = random.randint(0, Y7)
     
         distance = find_length(x1, y1, x2, y2)
@@ -58,7 +58,8 @@ def generate_needles(boarder6, max_trials):
             
     return count_needles, count_cross, count_safe
 
-for _ in range(1, 10_000):
+# Main program
+for _ in range(1, 11):
     count_needles, count_cross, count_safe = generate_needles(Y6, max_trials)
     cross_list.append(count_cross)
     safe_list.append(count_safe)
@@ -66,4 +67,4 @@ for _ in range(1, 10_000):
 print(count_cross, count_needles, count_safe)
 print("Pi = ", (2*needle_length)/(strip_width*(count_cross/count_needles)))
 print("p = ", count_cross/(count_cross+count_safe))
-print("average Pi = ", sum(cross_list)/((len(cross_list)+1)))
+print("average Pi = ", sum(cross_list)/((len(cross_list))))
